@@ -20,7 +20,12 @@ class Budget {
 };
 
 class UI {
-  //
+  insertBudget(amount) {
+    const { budget, budgetLeft } = amount;
+
+    document.querySelector('#total').textContent = budget;
+    document.querySelector('#restante').textContent = budgetLeft;
+  }
 };
 
 //* Instances
@@ -39,4 +44,5 @@ function askBudget() {
   }
 
   budget = new Budget(askUser);
+  ui.insertBudget(budget);
 }
