@@ -28,6 +28,11 @@ class Budget {
     const total = this.expenses.reduce((acc, expense) => acc + expense.amount, 0);
     this.budgetLeft = this.budget - total;
   }
+
+  deleteExpense(id) {
+    this.expenses = this.expenses.filter(expense => expense.id !== id);
+    this.calculateLeft();
+  }
 };
 
 class UI {
@@ -74,6 +79,10 @@ class UI {
       const btnErase = document.createElement('button');
       btnErase.className = 'btn btn-danger borrar-gasto';
       btnErase.innerHTML = 'Borrar &times;';
+      btnErase.onclick = () => {
+        deleteExpense(id);
+      }
+
       li.appendChild(btnErase);
       gasList.appendChild(li);
     });
@@ -88,11 +97,17 @@ class UI {
     const divCheck = document.querySelector('.restante');
 
     if ((budget / 4) > budgetLeft) {
-      divCheck.classList.remove('alert-success', 'alert-warning');
+      divCheck.classList.remove('alert-success');
+      divCheck.classList.remove('alert-warning');
       divCheck.classList.add('alert-danger');
     } else if ((budget / 2) > budgetLeft) {
-      divCheck.classList.remove('alert-success', 'alert-danger');
+      divCheck.classList.remove('alert-success');
+      divCheck.classList.remove('alert-danger');
       divCheck.classList.add('alert-warning');
+    } else {
+      divCheck.classList.remove('alert-danger');
+      divCheck.classList.remove('alert-warning');
+      divCheck.classList.add('alert-success');
     }
 
     if (budgetLeft <= 0) {
@@ -151,3 +166,12 @@ function addExpense(e) {
   ui.checkBudgetLeft(budget);
   form.reset();
 };
+
+function deleteExpense(id) {
+  budget.deleteExpense(id);
+
+  const { expenses, budgetLeft } = budget;
+  ui.insertExpense(expenses);
+  ui.updateBudgetLeft(budgetLeft);
+  ui.checkBudgetLeft(budget);
+}
