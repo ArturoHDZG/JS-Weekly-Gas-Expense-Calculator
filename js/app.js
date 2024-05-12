@@ -21,7 +21,13 @@ class Budget {
 
   addExpense(expense) {
     this.expenses = [...this.expenses, expense];
-    this.budgetLeft -= expense.amount;
+    this.calculateLeft();
+  }
+
+  calculateLeft() {
+    const total = this.expenses.reduce((acc, expense) => acc + expense.amount, 0);
+    this.budgetLeft = this.budget - total;
+    console.log(this.budgetLeft);
   }
 };
 
@@ -74,6 +80,10 @@ class UI {
     });
   }
 
+  updateBudgetLeft(budgetLeft) {
+    document.querySelector('#restante').textContent = budgetLeft;
+  }
+
   clearHTML() {
     while (gasList.firstChild) {
       gasList.removeChild(gasList.firstChild);
@@ -118,8 +128,9 @@ function addExpense(e) {
   const expense = { description, amount, id: Date.now() };
   budget.addExpense(expense);
   ui.insertAlert('Gasto agregado', 'success');
-  const { expenses } = budget;
+  const { expenses, budgetLeft } = budget;
   ui.insertExpense(expenses);
+  ui.updateBudgetLeft(budgetLeft);
   form.reset();
 
   // ui.insertBudget(budget);
