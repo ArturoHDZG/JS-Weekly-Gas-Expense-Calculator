@@ -27,7 +27,6 @@ class Budget {
   calculateLeft() {
     const total = this.expenses.reduce((acc, expense) => acc + expense.amount, 0);
     this.budgetLeft = this.budget - total;
-    console.log(this.budgetLeft);
   }
 };
 
@@ -84,6 +83,24 @@ class UI {
     document.querySelector('#restante').textContent = budgetLeft;
   }
 
+  checkBudgetLeft(budgetObj) {
+    const { budget, budgetLeft } = budgetObj;
+    const divCheck = document.querySelector('.restante');
+
+    if ((budget / 4) > budgetLeft) {
+      divCheck.classList.remove('alert-success', 'alert-warning');
+      divCheck.classList.add('alert-danger');
+    } else if ((budget / 2) > budgetLeft) {
+      divCheck.classList.remove('alert-success', 'alert-danger');
+      divCheck.classList.add('alert-warning');
+    }
+
+    if (budgetLeft <= 0) {
+      ui.insertAlert('Presupuesto agotado', 'error');
+      form.querySelector('button[type="submit"]').disabled = true;
+    }
+  }
+
   clearHTML() {
     while (gasList.firstChild) {
       gasList.removeChild(gasList.firstChild);
@@ -131,10 +148,6 @@ function addExpense(e) {
   const { expenses, budgetLeft } = budget;
   ui.insertExpense(expenses);
   ui.updateBudgetLeft(budgetLeft);
+  ui.checkBudgetLeft(budget);
   form.reset();
-
-  // ui.insertBudget(budget);
-
-  // document.querySelector('#gasto').value = '';
-  // document.querySelector('#cantidad').value = '';
 };
