@@ -50,6 +50,35 @@ class UI {
       messageDIV.remove();
     }, 3000);
   };
+
+  insertExpense(expenses) {
+    this.clearHTML();
+
+    expenses.forEach(expense => {
+      const { description, amount, id } = expense;
+      const li = document.createElement('LI');
+
+      // Build HTML
+      li.className = 'list-group-item d-flex justify-content-between align-items-center';
+      li.dataset.id = id;
+      li.innerHTML = `
+        ${description}
+        <span class="badge badge-primary badge-pill">$ ${amount}</span>
+      `;
+
+      const btnErase = document.createElement('button');
+      btnErase.className = 'btn btn-danger borrar-gasto';
+      btnErase.innerHTML = 'Borrar &times;';
+      li.appendChild(btnErase);
+      gasList.appendChild(li);
+    });
+  }
+
+  clearHTML() {
+    while (gasList.firstChild) {
+      gasList.removeChild(gasList.firstChild);
+    }
+  }
 };
 
 //* Instances
@@ -89,11 +118,12 @@ function addExpense(e) {
   const expense = { description, amount, id: Date.now() };
   budget.addExpense(expense);
   ui.insertAlert('Gasto agregado', 'success');
+  const { expenses } = budget;
+  ui.insertExpense(expenses);
   form.reset();
 
-  ui.insertExpense(expense);
-  ui.insertBudget(budget);
+  // ui.insertBudget(budget);
 
-  document.querySelector('#gasto').value = '';
-  document.querySelector('#cantidad').value = '';
+  // document.querySelector('#gasto').value = '';
+  // document.querySelector('#cantidad').value = '';
 };
