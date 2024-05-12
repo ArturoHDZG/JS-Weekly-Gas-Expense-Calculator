@@ -21,6 +21,6 @@ The Weekly Gas Expense Calculator is a simple web application built using vanill
 
 ## Live Demo
 
-Check out the live demo of the Weekly Gas Expense Calculator [here](http://).
+Check out the live demo of the Weekly Gas Expense Calculator [here](https://arturohdzg.github.io/JS-Weekly-Gas-Expense-Calculator/).
 
 Feel free to explore the code and provide feedback. Happy coding! 🚀
