@@ -113,6 +113,8 @@ class UI {
     if (budgetLeft <= 0) {
       ui.insertAlert('Presupuesto agotado', 'error');
       form.querySelector('button[type="submit"]').disabled = true;
+    } else {
+      form.querySelector('button[type="submit"]').disabled = false;
     }
   }
 
